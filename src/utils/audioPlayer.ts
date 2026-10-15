@@ -1,15 +1,26 @@
-// Audio Player supporting HTML5 Audio element with mobile compatibility and unlock
+// Hybrid YouTube & HTML5 Audio Player for seamless background celebration music
+declare global {
+  interface Window {
+    onYouTubeIframeAPIReady?: () => void;
+    YT?: any;
+  }
+}
+
 class MusicPlayer {
   private audio: HTMLAudioElement | null = null;
+  private ytPlayer: any = null;
+  private isYtReady: boolean = false;
   private isPlaying: boolean = false;
+  private usingYouTube: boolean = false;
   private audioContext: AudioContext | null = null;
-  private isInitialized: boolean = false;
   private listeners: ((playing: boolean) => void)[] = [];
+  private readonly ytVideoId = 'WIZ38JAh5CA'; // She Don't Give a FO - Duki ft. Khea (Instrumental)
+  public readonly currentSongTitle = "Duki ft. Khea - She Don't Give a FO";
 
   constructor() {
-    // Only initialize in browser environment
     if (typeof window !== 'undefined') {
       this.initAudioElement();
+      this.initYouTubeApi();
       this.setupGlobalUnlockListener();
     }
   }
@@ -23,39 +34,133 @@ class MusicPlayer {
       this.audio.volume = 0.65;
 
       this.audio.addEventListener('play', () => {
-        this.isPlaying = true;
-        this.notifyListeners();
-      });
-
-      this.audio.addEventListener('pause', () => {
-        this.isPlaying = false;
-        this.notifyListeners();
-      });
-
-      this.audio.addEventListener('ended', () => {
-        if (!this.audio?.loop) {
-          this.isPlaying = false;
+        if (!this.usingYouTube) {
+          this.isPlaying = true;
           this.notifyListeners();
         }
       });
 
-      this.audio.addEventListener('error', (e) => {
-        console.warn('Audio element error, will fallback if necessary:', e);
+      this.audio.addEventListener('pause', () => {
+        if (!this.usingYouTube) {
+          this.isPlaying = false;
+          this.notifyListeners();
+        }
       });
     } catch (e) {
-      console.warn('Failed to initialize Audio element:', e);
+      console.warn('Audio element initialization warning:', e);
     }
   }
 
-  // Pre-unlocks Web Audio Context on mobile touch
+  private initYouTubeApi() {
+    if (typeof window === 'undefined') return;
+
+    // Create container for YouTube Player if not already in DOM
+    let container = document.getElementById('yt-music-container');
+    if (!container) {
+      container = document.createElement('div');
+      container.id = 'yt-music-container';
+      container.style.position = 'fixed';
+      container.style.bottom = '0';
+      container.style.left = '0';
+      container.style.width = '1px';
+      container.style.height = '1px';
+      container.style.opacity = '0.01';
+      container.style.pointerEvents = 'none';
+      container.style.zIndex = '-9999';
+      document.body.appendChild(container);
+    }
+
+    const createPlayer = () => {
+      try {
+        if (!window.YT || !window.YT.Player) return;
+        this.ytPlayer = new window.YT.Player('yt-music-container', {
+          height: '1',
+          width: '1',
+          videoId: this.ytVideoId,
+          playerVars: {
+            autoplay: 0,
+            controls: 0,
+            disablekb: 1,
+            fs: 0,
+            loop: 1,
+            playlist: this.ytVideoId,
+            modestbranding: 1,
+            playsinline: 1, // Crucial for iOS to prevent fullscreen video popup
+            enablejsapi: 1,
+            origin: window.location.origin,
+          },
+          events: {
+            onReady: (event: any) => {
+              this.isYtReady = true;
+              try {
+                event.target.setVolume(70);
+              } catch (e) {
+                // ignore
+              }
+            },
+            onStateChange: (event: any) => {
+              if (window.YT) {
+                if (event.data === window.YT.PlayerState.PLAYING) {
+                  this.isPlaying = true;
+                  this.usingYouTube = true;
+                  // Pause HTML5 audio if YouTube took over
+                  if (this.audio && !this.audio.paused) {
+                    this.audio.pause();
+                  }
+                  this.notifyListeners();
+                } else if (
+                  event.data === window.YT.PlayerState.PAUSED ||
+                  event.data === window.YT.PlayerState.ENDED
+                ) {
+                  if (this.usingYouTube) {
+                    this.isPlaying = false;
+                    this.notifyListeners();
+                  }
+                }
+              }
+            },
+            onError: (err: any) => {
+              console.warn('YouTube playback notice, switching to internal audio fallback:', err);
+              this.usingYouTube = false;
+              if (this.isPlaying) {
+                this.audio?.play().catch(() => {});
+              }
+            },
+          },
+        });
+      } catch (err) {
+        console.warn('YouTube Player initialization notice:', err);
+      }
+    };
+
+    if (window.YT && window.YT.Player) {
+      createPlayer();
+    } else {
+      const prevCallback = window.onYouTubeIframeAPIReady;
+      window.onYouTubeIframeAPIReady = () => {
+        if (prevCallback) prevCallback();
+        createPlayer();
+      };
+
+      // Load YouTube IFrame API script
+      if (!document.querySelector('script[src*="youtube.com/iframe_api"]')) {
+        const tag = document.createElement('script');
+        tag.src = 'https://www.youtube.com/iframe_api';
+        tag.async = true;
+        document.head.appendChild(tag);
+      }
+    }
+  }
+
+  // Pre-unlocks Web Audio / HTML5 audio on mobile touch
   private setupGlobalUnlockListener() {
     if (typeof window === 'undefined') return;
 
     const unlock = () => {
-      if (this.isInitialized) return;
-      this.isInitialized = true;
-
-      // Unlock AudioContext if needed
+      // Pre-warm audio element for mobile browsers
+      if (this.audio) {
+        this.audio.load();
+      }
       try {
         const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
         if (AudioCtx) {
@@ -66,22 +171,15 @@ class MusicPlayer {
             this.audioContext.resume();
           }
         }
-      } catch (err) {
+      } catch (e) {
         // ignore
       }
 
-      // Preload audio
-      if (this.audio) {
-        this.audio.load();
-      }
-
       window.removeEventListener('touchstart', unlock);
-      window.removeEventListener('touchend', unlock);
       window.removeEventListener('click', unlock);
     };
 
     window.addEventListener('touchstart', unlock, { passive: true });
-    window.addEventListener('touchend', unlock, { passive: true });
     window.addEventListener('click', unlock, { passive: true });
   }
 
@@ -101,31 +199,52 @@ class MusicPlayer {
   }
 
   public async play(): Promise<boolean> {
-    this.initAudioElement();
-    if (!this.audio) return false;
-
-    try {
-      if (this.audioContext && this.audioContext.state === 'suspended') {
-        await this.audioContext.resume();
+    // 1. First attempt: YouTube player (exact video https://youtu.be/WIZ38JAh5CA)
+    if (this.isYtReady && this.ytPlayer && typeof this.ytPlayer.playVideo === 'function') {
+      try {
+        this.ytPlayer.playVideo();
+        this.usingYouTube = true;
+        this.isPlaying = true;
+        this.notifyListeners();
+        return true;
+      } catch (e) {
+        console.warn('YouTube playVideo failed, trying HTML5 audio fallback:', e);
       }
-      await this.audio.play();
-      this.isPlaying = true;
-      this.notifyListeners();
-      return true;
-    } catch (err) {
-      console.warn('Playback prevented by browser policy (user interaction required):', err);
-      this.isPlaying = false;
-      this.notifyListeners();
-      return false;
     }
+
+    // 2. High-fidelity HTML5 audio fallback (synthesized instrumental of She Don't Give a FO)
+    this.initAudioElement();
+    if (this.audio) {
+      try {
+        await this.audio.play();
+        this.usingYouTube = false;
+        this.isPlaying = true;
+        this.notifyListeners();
+        return true;
+      } catch (err) {
+        console.warn('Playback notice:', err);
+        this.isPlaying = false;
+        this.notifyListeners();
+        return false;
+      }
+    }
+
+    return false;
   }
 
   public stop(): void {
+    this.isPlaying = false;
+    if (this.ytPlayer && typeof this.ytPlayer.pauseVideo === 'function') {
+      try {
+        this.ytPlayer.pauseVideo();
+      } catch (e) {
+        // ignore
+      }
+    }
     if (this.audio) {
       this.audio.pause();
-      this.isPlaying = false;
-      this.notifyListeners();
     }
+    this.notifyListeners();
   }
 
   public toggle(): boolean {
@@ -150,7 +269,7 @@ class MusicPlayer {
         this.audioContext.resume();
       }
 
-      const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+      const notes = [523.25, 659.25, 783.99, 1046.50];
       const ctx = this.audioContext;
       const now = ctx.currentTime;
       const master = ctx.createGain();

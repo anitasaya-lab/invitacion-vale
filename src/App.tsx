@@ -134,22 +134,30 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#F3F5F9] text-[#061D60] flex flex-col font-sans selection:bg-[#0833A2] selection:text-white overflow-x-hidden w-full max-w-full">
       {/* Floating Audio Control Button on bottom-right */}
-      <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40 max-w-[calc(100vw-2rem)]">
+      <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40 max-w-[calc(100vw-2rem)] select-none">
         <button
           onClick={handleToggleAudio}
-          className="flex items-center gap-2 px-3.5 py-2.5 bg-[#061D60]/90 hover:bg-[#0833A2] active:scale-95 backdrop-blur-md rounded-full border border-white/20 text-xs font-medium text-white transition-all shadow-xl cursor-pointer"
-          title={isAudioPlaying ? 'Pausar música ambiental' : 'Reproducir música ambiental'}
+          className="flex items-center gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 bg-[#061D60]/95 hover:bg-[#0833A2] active:scale-95 backdrop-blur-md rounded-full border border-white/20 text-xs font-medium text-white transition-all shadow-xl cursor-pointer"
+          title={isAudioPlaying ? 'Pausar música: She Don\'t Give a FO' : 'Reproducir música: She Don\'t Give a FO'}
         >
           {isAudioPlaying ? (
             <>
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
+              {/* Mini animated equalizer */}
+              <span className="flex items-end gap-0.5 h-3.5">
+                <span className="w-0.5 bg-emerald-400 rounded-full animate-pulse h-2.5"></span>
+                <span className="w-0.5 bg-emerald-400 rounded-full animate-ping h-3.5"></span>
+                <span className="w-0.5 bg-emerald-400 rounded-full animate-pulse h-1.5"></span>
               </span>
-              <span>Pausar Música</span>
+              <span className="font-semibold text-emerald-300 hidden sm:inline">Sonando:</span>
+              <span className="max-w-[150px] sm:max-w-[200px] truncate">She Don't Give a FO</span>
+              <span className="opacity-70 text-[10px]">⏸</span>
             </>
           ) : (
-            <span>Música 🎵</span>
+            <>
+              <span className="text-[#D4AF37]">🎵</span>
+              <span className="max-w-[150px] sm:max-w-[200px] truncate">Música: She Don't Give a FO</span>
+              <span className="text-[10px] text-white/80">▶</span>
+            </>
           )}
         </button>
       </div>
