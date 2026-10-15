@@ -68,8 +68,15 @@ export default function App() {
     return sampleRsvps;
   });
 
-  // Audio Playback State
-  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
+  // Audio Playback State with listener subscription
+  const [isAudioPlaying, setIsAudioPlaying] = useState(() => musicPlayer.getStatus());
+
+  useEffect(() => {
+    const unsubscribe = musicPlayer.subscribe((playing) => {
+      setIsAudioPlaying(playing);
+    });
+    return unsubscribe;
+  }, []);
 
   const [isGiftModalOpen, setIsGiftModalOpen] = useState(false);
   const [isGuestListOpen, setIsGuestListOpen] = useState(false);
@@ -93,8 +100,7 @@ export default function App() {
 
   // Handle background music toggle
   const handleToggleAudio = () => {
-    const nextStatus = musicPlayer.toggle();
-    setIsAudioPlaying(nextStatus);
+    musicPlayer.toggle();
   };
 
   // Handle adding new RSVP
@@ -126,7 +132,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F3F5F9] text-[#061D60] flex flex-col font-sans selection:bg-[#0833A2] selection:text-white">
+    <div className="min-h-screen bg-[#F3F5F9] text-[#061D60] flex flex-col font-sans selection:bg-[#0833A2] selection:text-white overflow-x-hidden w-full max-w-full">
       {/* Floating Audio Control Button on bottom-right */}
       <div className="fixed bottom-6 right-6 z-40">
         <button

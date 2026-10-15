@@ -35,13 +35,17 @@ export const PhotoUploadQRSection: React.FC<PhotoUploadQRSectionProps> = ({
   const [showUploadModal, setShowUploadModal] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const albumUrl = 'https://photos.google.com/album/AF1QipPJyuJYzDt1IWCwFNaK89OtU_zr1ZoP6g50Pf3w';
+  const albumUrl =
+    uploadUrl && uploadUrl.startsWith('http')
+      ? uploadUrl
+      : 'https://photos.google.com/album/AF1QipPJyuJYzDt1IWCwFNaK89OtU_zr1ZoP6g50Pf3w';
 
   // Generate QR code for uploading photos directly to Google Photos album
   useEffect(() => {
     QRCode.toDataURL(albumUrl, {
       width: 280,
       margin: 1.5,
+      errorCorrectionLevel: 'M',
       color: {
         dark: '#0833A2',
         light: '#FFFFFF',
@@ -49,7 +53,7 @@ export const PhotoUploadQRSection: React.FC<PhotoUploadQRSectionProps> = ({
     })
       .then((url) => setQrDataUrl(url))
       .catch((err) => console.error('Error generating QR', err));
-  }, []);
+  }, [albumUrl]);
 
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -129,23 +133,29 @@ export const PhotoUploadQRSection: React.FC<PhotoUploadQRSectionProps> = ({
 
         {/* 50/50 Grid: QR Code & Instructions */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center w-full max-w-3xl mx-auto mb-6 text-left">
-          {/* Left: QR Code */}
+          {/* Left: QR Code (Clickable / Tappable on mobile) */}
           <div className="flex flex-col items-center justify-center text-center">
-            <div className="p-4 bg-[#F3F5F9] rounded-3xl border border-[#C7CCD5]/60 shadow-sm inline-block">
+            <a
+              href={albumUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-4 bg-[#F3F5F9] hover:bg-white rounded-3xl border border-[#C7CCD5]/60 hover:border-[#0833A2]/40 shadow-sm hover:shadow-md transition-all inline-block group cursor-pointer"
+              title="Tocar o escanear para abrir álbum en Google Photos"
+            >
               {qrDataUrl ? (
                 <img
                   src={qrDataUrl}
                   alt="Código QR para subir fotos de la fiesta"
-                  className="w-48 h-48 sm:w-56 sm:h-56 rounded-2xl object-contain mx-auto"
+                  className="w-48 h-48 sm:w-56 sm:h-56 rounded-2xl object-contain mx-auto group-hover:scale-102 transition-transform"
                 />
               ) : (
                 <div className="w-48 h-48 sm:w-56 sm:h-56 flex items-center justify-center text-gray-400 text-sm">
                   Cargando QR...
                 </div>
               )}
-            </div>
+            </a>
             <p className="mt-3 text-xs text-gray-500 font-medium">
-              Escaneá con la cámara de tu celular
+              Escaneá con la cámara o hacé clic sobre el QR
             </p>
           </div>
 
@@ -189,6 +199,7 @@ export const PhotoUploadQRSection: React.FC<PhotoUploadQRSectionProps> = ({
               >
                 <Upload className="w-4 h-4" strokeWidth={1.5} />
                 <span>Subir una foto ahora</span>
+                <ExternalLink className="w-3.5 h-3.5 opacity-70" />
               </a>
             </div>
           </div>

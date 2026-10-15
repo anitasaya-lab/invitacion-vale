@@ -75,8 +75,8 @@ export const CountdownSection: React.FC<CountdownSectionProps> = ({ eventDate, d
           Cada segundo nos acerca a una noche inolvidable. ¡Anotá la fecha en tu calendario!
         </p>
 
-        {/* Minimalist Countdown with colon dividers (borderless, medium weight, elegant size) */}
-        <div className="flex items-center justify-center gap-2.5 sm:gap-4 md:gap-6 my-6 max-w-xl mx-auto select-none">
+        {/* Minimalist Countdown with colon dividers (borderless, medium weight, elegant size, mobile responsive) */}
+        <div className="flex items-center justify-center gap-1.5 sm:gap-4 md:gap-6 my-6 max-w-full mx-auto select-none px-1">
           {[
             { label: 'DÍAS', value: timeLeft.days },
             { label: 'HORAS', value: timeLeft.hours },
@@ -84,19 +84,19 @@ export const CountdownSection: React.FC<CountdownSectionProps> = ({ eventDate, d
             { label: 'SEGUNDOS', value: timeLeft.seconds },
           ].map((item, idx, arr) => (
             <React.Fragment key={idx}>
-              <div className="flex flex-col items-center min-w-[50px] sm:min-w-[70px]">
+              <div className="flex flex-col items-center min-w-[42px] sm:min-w-[65px]">
                 <div 
-                  className="text-3xl sm:text-4xl md:text-5xl font-sans font-medium text-[#0833A2] tracking-tight leading-none"
+                  className="text-2xl sm:text-4xl md:text-5xl font-sans font-medium text-[#0833A2] tracking-tight leading-none"
                   style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 500 }}
                 >
                   {String(item.value).padStart(2, '0')}
                 </div>
-                <span className="text-[10px] sm:text-xs font-medium tracking-widest text-gray-400 mt-2 uppercase">
+                <span className="text-[9px] sm:text-xs font-medium tracking-wider text-gray-400 mt-1.5 uppercase">
                   {item.label}
                 </span>
               </div>
               {idx < arr.length - 1 && (
-                <span className="text-2xl sm:text-3xl md:text-4xl font-light text-[#0833A2]/30 -mt-4 select-none">
+                <span className="text-xl sm:text-3xl md:text-4xl font-light text-[#0833A2]/30 -mt-3 select-none">
                   :
                 </span>
               )}

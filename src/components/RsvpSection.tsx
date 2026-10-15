@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { UserCheck, Check, Send, Sparkles, MessageCircle, Heart, Music, Phone } from 'lucide-react';
+import { UserCheck, Check, Send, Sparkles, Heart, Music, Phone } from 'lucide-react';
 import { RsvpEntry, EventDetails } from '../types';
 import { musicPlayer } from '../utils/audioPlayer';
 import { triggerRsvpConfetti } from '../utils/confettiCelebration';
@@ -38,26 +38,39 @@ export const RsvpSection: React.FC<RsvpSectionProps> = ({ details, onNewRsvp }) 
 
       onNewRsvp(newEntry);
 
-      // Automatic sync to Google Sheets Webhook if configured
-      const sheetWebhook = localStorage.getItem('google_sheet_webhook_url');
-      if (sheetWebhook) {
-        try {
-          fetch(sheetWebhook, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              fecha: new Date().toLocaleString('es-UY'),
-              nombre: newEntry.fullName,
-              personas: newEntry.guestsCount,
-              telefono: newEntry.phone || '-',
-              cancion: newEntry.songSuggestion || '-',
-              mensaje: newEntry.message || '-',
-            }),
-          }).catch((err) => console.log('Sheet sync:', err));
-        } catch (e) {
-          // handled gracefully
-        }
+      // Automatic sync to Google Sheets Web App endpoint
+      const googleSheetUrl =
+        'https://script.google.com/macros/s/AKfycbyY0WbYlieOuoJhp66Zg-UF6YpOeg09R_PYp0A7Xxa5ag8RDSdxEeSkPI29fqQq2hF-kg/exec';
+
+      try {
+        const formData = new URLSearchParams();
+        const fechaUruguay = new Date().toLocaleString('es-UY', {
+          timeZone: 'America/Montevideo',
+        });
+
+        formData.append('fecha', fechaUruguay);
+        formData.append('nombre', newEntry.fullName);
+        formData.append('personas', String(newEntry.guestsCount));
+        formData.append('telefono', newEntry.phone || '-');
+        formData.append('cancion', newEntry.songSuggestion || '-');
+        formData.append('mensaje', newEntry.message || '-');
+        // Extra compatibility fields in case Google Script looks for specific column names
+        formData.append('name', newEntry.fullName);
+        formData.append('guests', String(newEntry.guestsCount));
+        formData.append('phone', newEntry.phone || '-');
+        formData.append('song', newEntry.songSuggestion || '-');
+        formData.append('message', newEntry.message || '-');
+
+        fetch(googleSheetUrl, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: formData.toString(),
+        }).catch((err) => console.log('Sheet sync notice:', err));
+      } catch (e) {
+        // handled gracefully
       }
 
       setIsSubmitting(false);
@@ -67,12 +80,6 @@ export const RsvpSection: React.FC<RsvpSectionProps> = ({ details, onNewRsvp }) 
       musicPlayer.playCelebrationChime();
       triggerRsvpConfetti();
     }, 500);
-  };
-
-  const generateWhatsAppMessage = () => {
-    const text = `¡Hola ${details.celebrantName}! Confirmo mi lugar en tu fiesta 🎉. Nombre: ${fullName}. Cantidad: ${guestsCount} persona(s). ${phone ? `Tel: ${phone}. ` : ''}${songSuggestion ? `Canción pedida: ${songSuggestion}` : ''}`;
-    const cleanPhone = details.whatsappPhone.replace(/\D/g, '');
-    return `https://wa.me/${cleanPhone}?text=${encodeURIComponent(text)}`;
   };
 
   return (
@@ -133,23 +140,21 @@ export const RsvpSection: React.FC<RsvpSectionProps> = ({ details, onNewRsvp }) 
                 </button>
               </div>
 
-              {/* WhatsApp notification button */}
-              <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
-                <a
-                  href={generateWhatsAppMessage()}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-5 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs rounded-xl shadow-xs transition-all active:scale-95"
-                >
-                  <MessageCircle className="w-4 h-4" />
-                  <span>Enviar confirmación por WhatsApp</span>
-                </a>
-
+              {/* Actions after submit (WhatsApp button removed as requested) */}
+              <div className="pt-3 flex flex-col sm:flex-row items-center justify-center gap-3">
                 <button
-                  onClick={() => setIsSubmitted(false)}
-                  className="px-4 py-2 text-xs text-gray-500 hover:text-gray-700 underline cursor-pointer"
+                  type="button"
+                  onClick={() => {
+                    setFullName('');
+                    setGuestsCount(1);
+                    setPhone('');
+                    setSongSuggestion('');
+                    setMessage('');
+                    setIsSubmitted(false);
+                  }}
+                  className="px-5 py-2.5 text-xs text-[#0833A2] hover:text-[#061D60] font-medium bg-white rounded-xl border border-[#C7CCD5]/60 hover:border-[#0833A2]/40 transition-all cursor-pointer shadow-xs"
                 >
-                  Modificar datos
+                  Confirmar otra persona o editar
                 </button>
               </div>
             </div>
