@@ -26,20 +26,20 @@ export const GiftSection: React.FC<GiftSectionProps> = ({ bankDetails, onOpenGif
 
         {/* Paragraph */}
         <p
-          className="text-gray-600 text-sm sm:text-base max-w-lg mx-auto leading-relaxed mb-8 font-light"
+          className="text-gray-600 text-xs sm:text-base max-w-lg mx-auto leading-relaxed mb-8 font-light px-2 break-words"
           style={{ fontFamily: 'Montserrat, sans-serif' }}
         >
           {bankDetails.message || 'Tu presencia y cariño en este día tan especial es todo lo que necesito. Pero si deseás hacerme un presente, podés colaborar a través de transferencia bancaria.'}
         </p>
 
         {/* Action Button */}
-        <div>
+        <div className="w-full flex items-center justify-center px-2">
           <button
             onClick={onOpenGiftModal}
-            className="inline-flex items-center justify-center gap-2.5 px-8 py-3.5 bg-[#0833A2] hover:bg-[#061D60] text-white font-semibold text-sm rounded-2xl shadow-md hover:shadow-lg transition-all active:scale-95 cursor-pointer"
+            className="w-full max-w-[260px] sm:max-w-none sm:w-auto inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-3.5 bg-[#0833A2] hover:bg-[#061D60] text-white font-semibold text-xs sm:text-sm rounded-2xl shadow-md hover:shadow-lg transition-all active:scale-95 cursor-pointer text-center"
             style={{ fontFamily: 'Montserrat, sans-serif' }}
           >
-            <CreditCard className="w-4 h-4" strokeWidth={1.5} />
+            <CreditCard className="w-4 h-4 shrink-0" strokeWidth={1.5} />
             <span>DATOS BANCARIOS</span>
           </button>
         </div>

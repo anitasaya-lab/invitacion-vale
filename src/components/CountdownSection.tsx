@@ -71,7 +71,7 @@ export const CountdownSection: React.FC<CountdownSectionProps> = ({ eventDate, d
     <section id="cuenta-regresiva" className="py-16 sm:py-20 px-4 bg-[#F3F5F9] relative overflow-hidden">
       <div className="max-w-3xl mx-auto text-center relative z-10 flex flex-col items-center">
         {/* Descriptive paragraph */}
-        <p className="text-gray-600 text-sm sm:text-base max-w-md mx-auto leading-relaxed mb-6">
+        <p className="text-gray-600 text-xs sm:text-base max-w-md mx-auto leading-relaxed mb-6 px-2 break-words">
           Cada segundo nos acerca a una noche inolvidable. ¡Anotá la fecha en tu calendario!
         </p>
 
@@ -84,7 +84,7 @@ export const CountdownSection: React.FC<CountdownSectionProps> = ({ eventDate, d
             { label: 'SEGUNDOS', value: timeLeft.seconds },
           ].map((item, idx, arr) => (
             <React.Fragment key={idx}>
-              <div className="flex flex-col items-center min-w-[42px] sm:min-w-[65px]">
+              <div className="flex flex-col items-center min-w-[38px] sm:min-w-[65px]">
                 <div 
                   className="text-2xl sm:text-4xl md:text-5xl font-sans font-medium text-[#0833A2] tracking-tight leading-none"
                   style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 500 }}
@@ -96,7 +96,7 @@ export const CountdownSection: React.FC<CountdownSectionProps> = ({ eventDate, d
                 </span>
               </div>
               {idx < arr.length - 1 && (
-                <span className="text-xl sm:text-3xl md:text-4xl font-light text-[#0833A2]/30 -mt-3 select-none">
+                <span className="text-lg sm:text-3xl md:text-4xl font-light text-[#0833A2]/30 -mt-3 select-none">
                   :
                 </span>
               )}
@@ -105,12 +105,12 @@ export const CountdownSection: React.FC<CountdownSectionProps> = ({ eventDate, d
         </div>
 
         {/* Single Google Calendar button */}
-        <div className="mt-8 flex items-center justify-center">
+        <div className="mt-8 flex items-center justify-center w-full px-2">
           <button
             onClick={handleGoogleCalendar}
-            className="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 bg-[#0833A2] hover:bg-[#061D60] text-white font-semibold text-sm rounded-2xl shadow-md hover:shadow-lg transition-all active:scale-95 cursor-pointer"
+            className="w-full max-w-[280px] sm:max-w-none sm:w-auto inline-flex items-center justify-center gap-2 px-5 sm:px-7 py-3 sm:py-3.5 bg-[#0833A2] hover:bg-[#061D60] text-white font-semibold text-xs sm:text-sm rounded-2xl shadow-md hover:shadow-lg transition-all active:scale-95 cursor-pointer text-center"
           >
-            <CalendarPlus className="w-4 h-4" />
+            <CalendarPlus className="w-4 h-4 shrink-0" />
             <span>Agendar en Google Calendar</span>
           </button>
         </div>

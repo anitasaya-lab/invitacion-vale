@@ -103,28 +103,28 @@ export const RsvpSection: React.FC<RsvpSectionProps> = ({ details, onNewRsvp }) 
 
         {/* Paragraph */}
         <p
-          className="text-gray-600 text-sm sm:text-base max-w-lg mx-auto leading-relaxed mb-8 font-light"
+          className="text-gray-600 text-xs sm:text-base max-w-lg mx-auto leading-relaxed mb-6 sm:mb-8 font-light px-2 break-words"
           style={{ fontFamily: 'Montserrat, sans-serif' }}
         >
           Por favor, dejanos saber si vas a poder acompañarnos para coordinar el catering y la distribución de mesas.
         </p>
 
         {/* The Card Container */}
-        <div className="w-full max-w-xl mx-auto bg-[#F3F5F9] rounded-3xl p-6 sm:p-9 border border-[#C7CCD5]/60 shadow-md text-left">
+        <div className="w-full max-w-xl mx-auto bg-[#F3F5F9] rounded-3xl p-4.5 sm:p-7 md:p-9 border border-[#C7CCD5]/60 shadow-md text-left">
           {isSubmitted ? (
-            <div className="text-center py-8 space-y-4 animate-in fade-in zoom-in-95 duration-300">
-              <div className="mx-auto w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center shadow-xs">
-                <Check className="w-8 h-8" strokeWidth={2} />
+            <div className="text-center py-6 sm:py-8 space-y-4 animate-in fade-in zoom-in-95 duration-300">
+              <div className="mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center shadow-xs">
+                <Check className="w-7 h-7 sm:w-8 sm:h-8" strokeWidth={2} />
               </div>
 
               <h4
-                className="text-xl sm:text-2xl font-bold text-[#061D60]"
+                className="text-lg sm:text-2xl font-bold text-[#061D60] px-2 break-words"
                 style={{ fontFamily: 'Montserrat, sans-serif' }}
               >
                 ¡Muchas gracias por confirmar!
               </h4>
 
-              <p className="text-gray-600 text-sm leading-relaxed max-w-md mx-auto">
+              <p className="text-gray-600 text-xs sm:text-sm leading-relaxed max-w-md mx-auto px-2 break-words">
                 Tu lugar ha sido reservado exitosamente. ¡Nos vemos en el salón para festejar a lo grande con {details.celebrantName}!
               </p>
 
@@ -155,7 +155,7 @@ export const RsvpSection: React.FC<RsvpSectionProps> = ({ details, onNewRsvp }) 
                     setMessage('');
                     setIsSubmitted(false);
                   }}
-                  className="px-5 py-2.5 text-xs text-[#0833A2] hover:text-[#061D60] font-medium bg-white rounded-xl border border-[#C7CCD5]/60 hover:border-[#0833A2]/40 transition-all cursor-pointer shadow-xs"
+                  className="w-full sm:w-auto max-w-[280px] px-4 py-2.5 text-xs text-[#0833A2] hover:text-[#061D60] font-medium bg-white rounded-xl border border-[#C7CCD5]/60 hover:border-[#0833A2]/40 transition-all cursor-pointer shadow-xs text-center"
                 >
                   Confirmar otra persona o editar
                 </button>
@@ -174,7 +174,7 @@ export const RsvpSection: React.FC<RsvpSectionProps> = ({ details, onNewRsvp }) 
                   placeholder="Ej: Florencia Pérez"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
-                  className="w-full px-4 py-3 bg-white text-sm rounded-xl border border-[#C7CCD5] focus:outline-none focus:border-[#0833A2] focus:ring-2 focus:ring-[#0833A2]/20"
+                  className="w-full px-3.5 sm:px-4 py-2.5 sm:py-3 bg-white text-base sm:text-sm rounded-xl border border-[#C7CCD5] focus:outline-none focus:border-[#0833A2] focus:ring-2 focus:ring-[#0833A2]/20"
                 />
               </div>
 
@@ -187,7 +187,7 @@ export const RsvpSection: React.FC<RsvpSectionProps> = ({ details, onNewRsvp }) 
                   <select
                     value={guestsCount}
                     onChange={(e) => setGuestsCount(Number(e.target.value))}
-                    className="w-full px-4 py-3 bg-white text-sm rounded-xl border border-[#C7CCD5] focus:outline-none focus:border-[#0833A2] focus:ring-2 focus:ring-[#0833A2]/20 cursor-pointer"
+                    className="w-full px-3.5 sm:px-4 py-2.5 sm:py-3 bg-white text-base sm:text-sm rounded-xl border border-[#C7CCD5] focus:outline-none focus:border-[#0833A2] focus:ring-2 focus:ring-[#0833A2]/20 cursor-pointer"
                   >
                     <option value={1}>1 persona (solo yo)</option>
                     <option value={2}>2 personas</option>
@@ -209,7 +209,7 @@ export const RsvpSection: React.FC<RsvpSectionProps> = ({ details, onNewRsvp }) 
                       placeholder="Ej: 099 123 456"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
-                      className="w-full pl-10 pr-4 py-3 bg-white text-sm rounded-xl border border-[#C7CCD5] focus:outline-none focus:border-[#0833A2] focus:ring-2 focus:ring-[#0833A2]/20"
+                      className="w-full pl-10 pr-3.5 sm:pr-4 py-2.5 sm:py-3 bg-white text-base sm:text-sm rounded-xl border border-[#C7CCD5] focus:outline-none focus:border-[#0833A2] focus:ring-2 focus:ring-[#0833A2]/20"
                     />
                   </div>
                 </div>
@@ -218,7 +218,7 @@ export const RsvpSection: React.FC<RsvpSectionProps> = ({ details, onNewRsvp }) 
               {/* Song Request */}
               <div>
                 <label className="block text-xs font-semibold uppercase tracking-wider text-[#061D60] mb-1.5 flex items-center gap-1.5">
-                  <Music className="w-3.5 h-3.5 text-[#0833A2]" />
+                  <Music className="w-3.5 h-3.5 text-[#0833A2] shrink-0" />
                   <span>¿Qué canción no puede faltar en la fiesta?</span>
                 </label>
                 <input
@@ -226,14 +226,14 @@ export const RsvpSection: React.FC<RsvpSectionProps> = ({ details, onNewRsvp }) 
                   placeholder="Canción y artista que querés escuchar"
                   value={songSuggestion}
                   onChange={(e) => setSongSuggestion(e.target.value)}
-                  className="w-full px-4 py-3 bg-white text-sm rounded-xl border border-[#C7CCD5] focus:outline-none focus:border-[#0833A2] focus:ring-2 focus:ring-[#0833A2]/20"
+                  className="w-full px-3.5 sm:px-4 py-2.5 sm:py-3 bg-white text-base sm:text-sm rounded-xl border border-[#C7CCD5] focus:outline-none focus:border-[#0833A2] focus:ring-2 focus:ring-[#0833A2]/20"
                 />
               </div>
 
               {/* Message to Celebrant */}
               <div>
                 <label className="block text-xs font-semibold uppercase tracking-wider text-[#061D60] mb-1.5 flex items-center gap-1.5">
-                  <Heart className="w-3.5 h-3.5 text-[#0833A2]" />
+                  <Heart className="w-3.5 h-3.5 text-[#0833A2] shrink-0" />
                   <span>Mensaje o Dedicatoria para {details.celebrantName}</span>
                 </label>
                 <textarea
@@ -241,7 +241,7 @@ export const RsvpSection: React.FC<RsvpSectionProps> = ({ details, onNewRsvp }) 
                   placeholder="Escribile unas palabras que guardará con mucho cariño..."
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
-                  className="w-full px-4 py-2.5 bg-white text-sm rounded-xl border border-[#C7CCD5] focus:outline-none focus:border-[#0833A2] focus:ring-2 focus:ring-[#0833A2]/20 resize-none"
+                  className="w-full px-3.5 sm:px-4 py-2 sm:py-2.5 bg-white text-base sm:text-sm rounded-xl border border-[#C7CCD5] focus:outline-none focus:border-[#0833A2] focus:ring-2 focus:ring-[#0833A2]/20 resize-none"
                 />
               </div>
 
@@ -250,7 +250,7 @@ export const RsvpSection: React.FC<RsvpSectionProps> = ({ details, onNewRsvp }) 
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full py-3.5 bg-[#0833A2] hover:bg-[#061D60] active:scale-98 text-white font-semibold text-sm rounded-2xl shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+                  className="w-full py-3 sm:py-3.5 bg-[#0833A2] hover:bg-[#061D60] active:scale-98 text-white font-semibold text-xs sm:text-sm rounded-2xl shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
                 >
                   <Send className="w-4 h-4" />
                   <span>{isSubmitting ? 'Confirmando...' : 'Confirmar Asistencia'}</span>

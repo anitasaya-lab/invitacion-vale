@@ -19,7 +19,7 @@ export const WelcomeSection: React.FC = () => {
         </h3>
 
         {/* Paragraph: ¡LLegó la noche tan esperada, y que más lindo que compartirla con vos! */}
-        <p className="text-white/85 text-base sm:text-lg max-w-lg mx-auto leading-relaxed mt-3.5 font-light">
+        <p className="text-white/90 text-sm sm:text-base md:text-lg max-w-lg mx-auto leading-relaxed mt-3.5 font-light px-2 break-words">
           ¡LLegó la noche tan esperada, y que más lindo que compartirla con vos!
         </p>
       </div>

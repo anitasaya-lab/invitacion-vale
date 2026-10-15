@@ -47,7 +47,7 @@ export const DressCodeSection: React.FC<DressCodeSectionProps> = ({ dressCode })
 
         {/* Heading: VESTIMENTA */}
         <h3
-          className="text-2xl sm:text-3xl font-normal text-[#061D60] tracking-[0.2em] uppercase mb-4"
+          className="text-2xl sm:text-3xl font-normal text-[#061D60] tracking-[0.15em] sm:tracking-[0.2em] uppercase mb-4"
           style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 400 }}
         >
           VESTIMENTA
@@ -55,7 +55,7 @@ export const DressCodeSection: React.FC<DressCodeSectionProps> = ({ dressCode })
 
         {/* Dress code title & description in blue/gray typography */}
         <div
-          className="text-base sm:text-lg leading-relaxed font-light max-w-lg mx-auto"
+          className="text-sm sm:text-base md:text-lg leading-relaxed font-light max-w-lg mx-auto px-2 break-words"
           style={{ fontFamily: 'Montserrat, sans-serif' }}
         >
           <p className="font-medium text-[#0833A2] text-lg sm:text-xl">

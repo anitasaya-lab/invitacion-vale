@@ -29,9 +29,9 @@ export const GiftModal: React.FC<GiftModalProps> = ({ isOpen, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#061D60]/75 backdrop-blur-sm animate-fade-in">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-[#061D60]/75 backdrop-blur-sm animate-fade-in overflow-y-auto">
       <div
-        className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl border border-[#C7CCD5]/60 overflow-hidden transform transition-all animate-in fade-in zoom-in-95 duration-200"
+        className="relative w-full max-w-[calc(100vw-1.5rem)] sm:max-w-md bg-white rounded-3xl shadow-2xl border border-[#C7CCD5]/60 overflow-hidden transform transition-all animate-in fade-in zoom-in-95 duration-200"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header decoration */}

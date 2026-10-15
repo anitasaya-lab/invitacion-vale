@@ -134,7 +134,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#F3F5F9] text-[#061D60] flex flex-col font-sans selection:bg-[#0833A2] selection:text-white overflow-x-hidden w-full max-w-full">
       {/* Floating Audio Control Button on bottom-right */}
-      <div className="fixed bottom-6 right-6 z-40">
+      <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40 max-w-[calc(100vw-2rem)]">
         <button
           onClick={handleToggleAudio}
           className="flex items-center gap-2 px-3.5 py-2.5 bg-[#061D60]/90 hover:bg-[#0833A2] active:scale-95 backdrop-blur-md rounded-full border border-white/20 text-xs font-medium text-white transition-all shadow-xl cursor-pointer"

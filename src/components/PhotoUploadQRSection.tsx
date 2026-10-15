@@ -117,7 +117,7 @@ export const PhotoUploadQRSection: React.FC<PhotoUploadQRSectionProps> = ({
 
         {/* Heading: FOTOS */}
         <h3
-          className="text-2xl sm:text-3xl font-normal text-[#061D60] tracking-[0.2em] uppercase mb-4"
+          className="text-2xl sm:text-3xl font-normal text-[#061D60] tracking-[0.15em] sm:tracking-[0.2em] uppercase mb-4"
           style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 400 }}
         >
           FOTOS
@@ -125,7 +125,7 @@ export const PhotoUploadQRSection: React.FC<PhotoUploadQRSectionProps> = ({
 
         {/* Subtitle paragraph */}
         <p
-          className="text-gray-600 text-sm sm:text-base max-w-lg mx-auto leading-relaxed mb-10 font-light"
+          className="text-gray-600 text-xs sm:text-base max-w-lg mx-auto leading-relaxed mb-8 sm:mb-10 font-light px-2 break-words"
           style={{ fontFamily: 'Montserrat, sans-serif' }}
         >
           Compartí tus fotos y videos de la fiesta para guardar cada momento inolvidable.
@@ -139,28 +139,28 @@ export const PhotoUploadQRSection: React.FC<PhotoUploadQRSectionProps> = ({
               href={albumUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-4 bg-[#F3F5F9] hover:bg-white rounded-3xl border border-[#C7CCD5]/60 hover:border-[#0833A2]/40 shadow-sm hover:shadow-md transition-all inline-block group cursor-pointer"
+              className="p-3.5 sm:p-4 bg-[#F3F5F9] hover:bg-white rounded-3xl border border-[#C7CCD5]/60 hover:border-[#0833A2]/40 shadow-sm hover:shadow-md transition-all inline-block group cursor-pointer max-w-[260px]"
               title="Tocar o escanear para abrir álbum en Google Photos"
             >
               {qrDataUrl ? (
                 <img
                   src={qrDataUrl}
                   alt="Código QR para subir fotos de la fiesta"
-                  className="w-48 h-48 sm:w-56 sm:h-56 rounded-2xl object-contain mx-auto group-hover:scale-102 transition-transform"
+                  className="w-44 h-44 sm:w-56 sm:h-56 rounded-2xl object-contain mx-auto group-hover:scale-102 transition-transform"
                 />
               ) : (
-                <div className="w-48 h-48 sm:w-56 sm:h-56 flex items-center justify-center text-gray-400 text-sm">
+                <div className="w-44 h-44 sm:w-56 sm:h-56 flex items-center justify-center text-gray-400 text-sm">
                   Cargando QR...
                 </div>
               )}
             </a>
-            <p className="mt-3 text-xs text-gray-500 font-medium">
+            <p className="mt-3 text-xs text-gray-500 font-medium px-2">
               Escaneá con la cámara o hacé clic sobre el QR
             </p>
           </div>
 
           {/* Right: Instructions (no icon, only steps 1 and 2, single button) */}
-          <div className="flex flex-col justify-center space-y-5">
+          <div className="flex flex-col justify-center space-y-5 px-2">
             <h4
               className="text-xl sm:text-2xl font-normal text-[#061D60] tracking-wide"
               style={{ fontFamily: 'Montserrat, sans-serif' }}
@@ -168,7 +168,7 @@ export const PhotoUploadQRSection: React.FC<PhotoUploadQRSectionProps> = ({
               ¿Cómo funciona?
             </h4>
 
-            <div className="space-y-4 text-sm text-gray-600" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+            <div className="space-y-4 text-xs sm:text-sm text-gray-600" style={{ fontFamily: 'Montserrat, sans-serif' }}>
               <div className="flex items-start gap-3">
                 <span className="w-6 h-6 rounded-full bg-[#0833A2] text-white flex items-center justify-center text-xs font-semibold shrink-0 mt-0.5">
                   1
@@ -189,17 +189,17 @@ export const PhotoUploadQRSection: React.FC<PhotoUploadQRSectionProps> = ({
             </div>
 
             {/* Single Action Button linking directly to Google Photos album */}
-            <div className="pt-2">
+            <div className="pt-2 w-full flex sm:block justify-center">
               <a
                 href={albumUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 bg-[#0833A2] hover:bg-[#061D60] text-white font-semibold text-sm rounded-2xl shadow-md hover:shadow-lg transition-all active:scale-95 cursor-pointer"
+                className="w-full max-w-[280px] sm:max-w-none sm:w-auto inline-flex items-center justify-center gap-2 px-5 sm:px-8 py-3 sm:py-3.5 bg-[#0833A2] hover:bg-[#061D60] text-white font-semibold text-xs sm:text-sm rounded-2xl shadow-md hover:shadow-lg transition-all active:scale-95 cursor-pointer text-center"
                 style={{ fontFamily: 'Montserrat, sans-serif' }}
               >
-                <Upload className="w-4 h-4" strokeWidth={1.5} />
+                <Upload className="w-4 h-4 shrink-0" strokeWidth={1.5} />
                 <span>Subir una foto ahora</span>
-                <ExternalLink className="w-3.5 h-3.5 opacity-70" />
+                <ExternalLink className="w-3.5 h-3.5 opacity-70 shrink-0" />
               </a>
             </div>
           </div>
