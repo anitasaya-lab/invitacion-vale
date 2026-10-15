@@ -29,7 +29,7 @@ export const initialEventDetails: EventDetails = {
     message: 'Tu presencia es mi mayor regalo, pero si deseás hacerme un presente podés colaborar a través de nuestra cuenta.',
   },
   whatsappPhone: '5491138459210',
-  photoUploadUrl: 'https://photos.google.com/album/AF1QipPJyuJYzDt1IWCwFNaK89OtU_zr1ZoP6g50Pf3w',
+  photoUploadUrl: 'https://photos.app.goo.gl/LdHz6fc9FGJGq2qk9',
 };
 
 export const sampleRsvps: RsvpEntry[] = [

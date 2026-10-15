@@ -40,34 +40,37 @@ export const RsvpSection: React.FC<RsvpSectionProps> = ({ details, onNewRsvp }) 
 
       // Automatic sync to Google Sheets Web App endpoint
       const googleSheetUrl =
-        'https://script.google.com/macros/s/AKfycbyY0WbYlieOuoJhp66Zg-UF6YpOeg09R_PYp0A7Xxa5ag8RDSdxEeSkPI29fqQq2hF-kg/exec';
+        'https://script.google.com/macros/s/AKfycbz-DJ7HgOYH63vZTLAJAcfmqbfwXnHzLLLps65ELulq5ye39Z_4_a8ytUmESpavo--4uQ/exec';
 
       try {
-        const formData = new URLSearchParams();
         const fechaUruguay = new Date().toLocaleString('es-UY', {
           timeZone: 'America/Montevideo',
         });
 
-        formData.append('fecha', fechaUruguay);
-        formData.append('nombre', newEntry.fullName);
-        formData.append('personas', String(newEntry.guestsCount));
-        formData.append('telefono', newEntry.phone || '-');
-        formData.append('cancion', newEntry.songSuggestion || '-');
-        formData.append('mensaje', newEntry.message || '-');
-        // Extra compatibility fields in case Google Script looks for specific column names
-        formData.append('name', newEntry.fullName);
-        formData.append('guests', String(newEntry.guestsCount));
-        formData.append('phone', newEntry.phone || '-');
-        formData.append('song', newEntry.songSuggestion || '-');
-        formData.append('message', newEntry.message || '-');
+        const payload = {
+          fecha: fechaUruguay,
+          date: fechaUruguay,
+          nombre: newEntry.fullName,
+          name: newEntry.fullName,
+          fullName: newEntry.fullName,
+          personas: newEntry.guestsCount,
+          guests: newEntry.guestsCount,
+          cantidad: newEntry.guestsCount,
+          telefono: newEntry.phone || '-',
+          phone: newEntry.phone || '-',
+          cancion: newEntry.songSuggestion || '-',
+          song: newEntry.songSuggestion || '-',
+          mensaje: newEntry.message || '-',
+          message: newEntry.message || '-',
+        };
 
         fetch(googleSheetUrl, {
           method: 'POST',
           mode: 'no-cors',
           headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Type': 'text/plain;charset=utf-8',
           },
-          body: formData.toString(),
+          body: JSON.stringify(payload),
         }).catch((err) => console.log('Sheet sync notice:', err));
       } catch (e) {
         // handled gracefully

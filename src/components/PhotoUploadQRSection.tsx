@@ -36,9 +36,9 @@ export const PhotoUploadQRSection: React.FC<PhotoUploadQRSectionProps> = ({
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const albumUrl =
-    uploadUrl && uploadUrl.startsWith('http')
+    uploadUrl && uploadUrl.startsWith('http') && !uploadUrl.includes('AF1QipPJyuJYzDt1IWCwFNaK89OtU_zr1ZoP6g50Pf3w')
       ? uploadUrl
-      : 'https://photos.google.com/album/AF1QipPJyuJYzDt1IWCwFNaK89OtU_zr1ZoP6g50Pf3w';
+      : 'https://photos.app.goo.gl/LdHz6fc9FGJGq2qk9';
 
   // Generate QR code for uploading photos directly to Google Photos album
   useEffect(() => {

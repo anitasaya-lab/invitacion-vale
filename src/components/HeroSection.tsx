@@ -41,9 +41,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             src="/valen.png"
             onError={(e) => {
               const target = e.currentTarget;
-              if (!target.src.endsWith('/valen.png')) {
-                target.src = '/valen.png';
-              }
+              target.onerror = null;
+              target.src = '/valen-tag.svg';
             }}
             alt={`${details.celebrantName} - ${details.celebrationType}`}
             className="w-full h-auto max-h-[300px] sm:max-h-[380px] object-contain drop-shadow-[0_4px_25px_rgba(255,255,255,0.45)] drop-shadow-[0_12px_40px_rgba(0,0,0,0.85)] filter"
